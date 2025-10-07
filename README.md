@@ -1,111 +1,84 @@
-# AI Findr - Documentación
+# AIFindr Commerce - Documentación del Widget
 
-Este repositorio contiene la documentación de la API de AI Findr, construida con [Docusaurus 3](https://docusaurus.io/) y el plugin de OpenAPI docs.
+Este repositorio contiene la guía oficial para instalar y configurar el widget conversacional de AIFindr Commerce. El sitio está construido con [Docusaurus 3](https://docusaurus.io/) y se centra exclusivamente en flujos de onboarding, personalización visual y despliegue del widget.
 
 ## 🚀 Instalación y configuración inicial
 
-**⚠️ Importante**: Este proyecto requiere **yarn** como gestor de paquetes para evitar problemas de peer dependencies.
+> ⚠️ Usa **yarn** como gestor de paquetes para evitar incidencias con peer dependencies.
 
 ```bash
 # Clonar el repositorio
 git clone <repository-url>
-cd my-website
+cd aifindr-commerce-docs
 
-# Instalar dependencias con yarn
+# Instalar dependencias
 yarn install
 ```
 
 ## 🛠️ Desarrollo local
 
 ```bash
-# Iniciar servidor de desarrollo
+# Servidor de desarrollo con recarga automática
 yarn start
 ```
 
-Este comando inicia un servidor local en `http://localhost:3000` y abre automáticamente el navegador. La mayoría de cambios se reflejan en tiempo real sin necesidad de reiniciar el servidor.
+El sitio se abre en `http://localhost:3000` y refleja los cambios de Markdown/React en caliente. Reinicia el servidor si tocas la configuración principal (`docusaurus.config.ts`).
 
-## 📝 Actualización de la documentación API
+## 📚 Guías de contenido
 
-La documentación API se genera automáticamente desde el archivo `swagger.yaml`. Para actualizarla:
+Toda la documentación editable vive en `docs/widget-config/` y está organizada por etapas:
 
-### 1. Generar swagger.yaml en el backend
+- `intro.md`: visión general del widget y casos de uso
+- `instalacion.md`: snippet de inserción y requisitos previos
+- `triggers.md`: configuración de disparadores
+- `personalizacion.md`: estilos, temas y copywriting
+- `contexto-metadatos.md`: cómo enviar datos dinámicos al asistente
 
-En el repositorio del backend, ejecuta:
-```bash
-swag init
-```
+Cada archivo debe mantener front matter con `slug`, `title` y `sidebar_position` para preservar la navegación.
 
-Esto generará el archivo `swagger.yaml` con la documentación más actualizada de la API.
-
-### 2. Actualizar swagger.yaml en este repositorio
-
-1. Copia el archivo `swagger.yaml` generado en el backend
-2. Reemplaza el archivo `examples/swagger.yaml` en este repositorio
-3. Regenera la documentación (opcional, pero recomendado para ver cambios localmente):
+## 🧪 Validación antes de publicar
 
 ```bash
-yarn api-gen
+# Construir versión de producción
+yarn build
+
+# Revisar el bundle generado
+yarn serve
 ```
 
-**Nota**: El comando `yarn build` ejecuta automáticamente `yarn api-gen` antes del build, por lo que no es estrictamente necesario ejecutarlo manualmente antes de hacer build.
-
-## 📚 Comandos disponibles
-
-```bash
-# Desarrollo
-yarn start                    # Servidor de desarrollo local
-
-# Documentación API
-yarn api-gen                  # Regenerar documentación API desde swagger.yaml
-yarn clean-api-docs          # Limpiar documentación API generada
-
-# Build y despliegue
-yarn build                    # Construir el sitio estático (incluye api-gen)
-yarn serve                    # Servir el build localmente para pruebas
-
-# Utilidades
-yarn clear                    # Limpiar cache de Docusaurus
-yarn swizzle                  # Personalizar componentes de Docusaurus
-```
+`yarn build` detecta enlaces rotos, activos faltantes y errores de Markdown. Usa `yarn serve` para revisar el resultado final tal como lo verán clientes y partners.
 
 ## 🌐 Despliegue
 
-Este sitio se despliega automáticamente en **Cloudflare Pages**:
+Cloudflare Pages despliega automáticamente el sitio cuando hay commits en `main`:
 
-- **Trigger**: Cada push a la rama `main`
-- **URL de producción**: [aifindr-docs.pages.dev](https://aifindr-docs.pages.dev)
-- **Proceso**: Cloudflare ejecuta automáticamente `yarn build` y despliega el contenido generado
-
-### Flujo de actualización típico:
-
-1. Actualizar `swagger.yaml` desde el backend
-2. Hacer commit y push a `main`
-3. Cloudflare despliega automáticamente los cambios
+1. Actualiza el contenido en `docs/widget-config/`
+2. Ejecuta `yarn build` de forma local para validar
+3. Haz commit y push a `main`
+4. Cloudflare construye y publica el sitio en `https://docs.aifindr.com`
 
 ## 🏗️ Estructura del proyecto
 
 ```
-my-website/
-├── docs/                    # Documentación manual (Markdown)
-├── examples/
-│   └── swagger.yaml        # Especificación OpenAPI de la API
-├── src/                    # Componentes y páginas personalizadas
-├── static/                 # Archivos estáticos (imágenes, etc.)
-├── docusaurus.config.js    # Configuración de Docusaurus
-└── package.json           # Dependencias y scripts
+aifindr-commerce-docs/
+├── docs/                  # Contenido en Markdown del widget
+├── src/                   # Componentes React y estilos globales
+├── static/                # Imágenes, fuentes y assets estáticos
+├── docusaurus.config.ts   # Configuración principal del sitio
+├── sidebars.ts            # Definición de la navegación lateral
+├── package.json           # Dependencias y scripts de Yarn
+└── yarn.lock              # Bloqueo de dependencias
 ```
 
 ## 🔧 Personalización
 
-Para personalizar el sitio:
+- Ajusta estilos globales en `src/css/custom.css`
+- Añade componentes reutilizables en `src/components/`
+- Crea páginas promocionales o landings en `src/pages/`
+- Mantén el contenido traducido y consistente con la voz de marca
 
-1. **Configuración general**: Edita `docusaurus.config.js`
-2. **Documentación manual**: Añade archivos `.md` en `docs/`
-3. **Estilos**: Modifica archivos en `src/css/`
-4. **Componentes**: Personaliza componentes en `src/components/`
+## 📖 Recursos adicionales
 
-## 📖 Más información
-
-- [Documentación de Docusaurus](https://docusaurus.io/)
-- [Plugin OpenAPI Docs](https://github.com/PaloAltoNetworks/docusaurus-openapi-docs)
-- [Swagger/OpenAPI Specification](https://swagger.io/specification/)
+- [Documentación de Docusaurus](https://docusaurus.io/docs)
+- [Guía de componentes de React](https://react.dev/learn)
+- [Documentación Cloudflare Pages](https://developers.cloudflare.com/pages)

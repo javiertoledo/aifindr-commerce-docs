@@ -3,12 +3,10 @@
 
 import type * as Preset from "@docusaurus/preset-classic";
 import type { Config } from "@docusaurus/types";
-import type * as Plugin from "@docusaurus/types/src/plugin";
-import type * as OpenApiPlugin from "docusaurus-plugin-openapi-docs";
 
 const config: Config = {
-  title: "AI Findr Docs",
-  tagline: "AI Findr Documentation",
+  title: "AIFindr Commerce Docs",
+  tagline: "AIFindr Commerce Documentation",
   url: "https://docs.aifindr.com",
   baseUrl: "/",
   onBrokenLinks: "throw",
@@ -20,12 +18,34 @@ const config: Config = {
       {
         docs: {
           sidebarPath: require.resolve("./sidebars.ts"),
-          docItemComponent: "@theme/ApiItem", // Derived from docusaurus-theme-openapi
+          routeBasePath: "docs",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
         },
       } satisfies Preset.Options,
+    ],
+  ],
+  plugins: [
+    [
+      "@docusaurus/plugin-client-redirects",
+      {
+        redirects: [
+          {
+            from: "/",
+            to: "/docs/widget-config/api-reference",
+          },
+          {
+            from: [
+              "/docs/widget-config/integraciones/angular",
+              "/docs/widget-config/integraciones/html",
+              "/docs/widget-config/integraciones/react-nextjs",
+              "/docs/widget-config/integraciones/wordpress",
+            ],
+            to: "/docs/widget-config/instalacion",
+          },
+        ],
+      },
     ],
   ],
 
@@ -37,25 +57,21 @@ const config: Config = {
         },
       },
       navbar: {
+        title: "AIFindr Commerce",
         logo: {
-          alt: "AI Findr Logo",
+          alt: "AIFindr Commerce Logo",
           src: "https://framerusercontent.com/images/P9zJkZIvPqGLxQmLj4rgrJBt8uY.svg?scale-down-to=512",
+          href: "/docs/widget-config/api-reference",
         },
         items: [
           {
             type: "doc",
-            docId: "api/ai-findr-api",
-            label: "API",
-            position: "left",
-          },
-          {
-            type: "doc",
-            docId: "widget-config/intro",
+            docId: "widget-reference",
             label: "Widget",
             position: "left",
           },
           {
-            href: "https://github.com/theam/aifindr-docs",
+            href: "https://github.com/javiertoledo/aifindr-commerce-docs",
             label: "GitHub",
             position: "right",
           },
@@ -202,30 +218,6 @@ const config: Config = {
       ],
     } satisfies Preset.ThemeConfig,
 
-  plugins: [
-    [
-      "docusaurus-plugin-openapi-docs",
-      {
-        id: "openapi",
-        docsPluginId: "classic",
-        config: {
-          api: {
-            specPath: "examples/swagger.yaml",
-            outputDir: "docs/api",
-            downloadUrl:
-              "https://raw.githubusercontent.com/PaloAltoNetworks/docusaurus-template-openapi-docs/main/examples/aifindr.yaml",
-            sidebarOptions: {
-              groupPathsBy: "tag",
-              categoryLinkSource: "tag",
-              sidebarCollapsed: true,
-            },
-          } satisfies OpenApiPlugin.Options,
-        } satisfies Plugin.PluginOptions,
-      },
-    ],
-  ],
-
-  themes: ["docusaurus-theme-openapi-docs"],
 };
 
 export default async function createConfig() {

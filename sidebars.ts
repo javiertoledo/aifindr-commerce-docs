@@ -19,7 +19,6 @@ const sidebars: SidebarsConfig = {
       dirName: "widget-config",
     },
   ],
-  openApiSidebar: require("./docs/api/sidebar.ts").default
 };
 
 export default sidebars;

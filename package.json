@@ -1,31 +1,25 @@
 {
-  "name": "docusaurus-template-openapi-docs",
+  "name": "aifindr-widget-docs",
   "version": "4.3.7",
   "private": true,
   "packageManager": "yarn@1.22.19",
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
-    "api-gen": "docusaurus clean-api-docs all && docusaurus gen-api-docs all",
-    "build": "yarn api-gen && docusaurus build",
+    "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
-    "write-heading-ids": "docusaurus write-heading-ids",
-    "gen-api-docs": "docusaurus gen-api-docs",
-    "clean-api-docs": "docusaurus clean-api-docs",
-    "gen-api-docs:version": "docusaurus gen-api-docs:version",
-    "clean-api-docs:version": "docusaurus clean-api-docs:version"
+    "write-heading-ids": "docusaurus write-heading-ids"
   },
   "dependencies": {
     "@docusaurus/core": "3.7.0",
     "@docusaurus/preset-classic": "3.7.0",
+    "@docusaurus/plugin-client-redirects": "3.7.0",
     "@mdx-js/react": "^3.0.0",
     "clsx": "^2.0.0",
-    "docusaurus-plugin-openapi-docs": "4.3.7",
-    "docusaurus-theme-openapi-docs": "4.3.7",
     "prism-react-renderer": "^2.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
