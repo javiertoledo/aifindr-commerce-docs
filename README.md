@@ -50,12 +50,15 @@ yarn serve
 
 ## 🌐 Despliegue
 
-Cloudflare Pages despliega automáticamente el sitio cuando hay commits en `main`:
+GitHub Actions construye y publica automáticamente el sitio en GitHub Pages cada vez que hay commits en `main`:
 
 1. Actualiza el contenido en `docs/widget-config/`
 2. Ejecuta `yarn build` de forma local para validar
 3. Haz commit y push a `main`
-4. Cloudflare construye y publica el sitio en `https://docs.aifindr.com`
+4. El workflow `Deploy Docs` compila el sitio y lo sube al artefacto de GitHub Pages
+5. GitHub Pages publica el contenido en la rama gestionada por Actions (`github-pages`)
+
+> ℹ️ Tras el primer merge con `main`, entra en *Settings → Pages* y selecciona **GitHub Actions** como fuente. Si usas dominio personalizado, defínelo ahí y añade el registro DNS correspondiente.
 
 ## 🏗️ Estructura del proyecto
 
