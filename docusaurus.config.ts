@@ -35,15 +35,6 @@ const config: Config = {
             from: "/",
             to: "/docs/widget-config/api-reference",
           },
-          {
-            from: [
-              "/docs/widget-config/integraciones/angular",
-              "/docs/widget-config/integraciones/html",
-              "/docs/widget-config/integraciones/react-nextjs",
-              "/docs/widget-config/integraciones/wordpress",
-            ],
-            to: "/docs/widget-config/instalacion",
-          },
         ],
       },
     ],
