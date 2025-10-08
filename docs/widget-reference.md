@@ -128,18 +128,18 @@ Registra un listener para un evento específico.
 **Retorna:** `AIFindrCommerceWidget` - La misma instancia para encadenamiento
 
 ```js
-widget.on('widget.opened', () => {
-  console.log('Widget se abrió');
+widget.on('message.sent', (data) => {
+  console.log('Mensaje enviado:', data);
 });
 
-widget.on('widget.closed', () => {
-  console.log('Widget se cerró');
+widget.on('message.received', (data) => {
+  console.log('Mensaje recibido:', data);
 });
 
 // Con encadenamiento
 widget
-  .on('widget.opened', () => console.log('Abierto'))
-  .on('widget.closed', () => console.log('Cerrado'));
+  .on('conversation.started', () => console.log('Conversación iniciada'))
+  .on('message.sent', () => console.log('Mensaje enviado'));
 ```
 
 #### `widget.off(event, callback)`
@@ -154,13 +154,13 @@ Desregistra un listener de evento específico.
 **Retorna:** `AIFindrCommerceWidget` - La misma instancia para encadenamiento
 
 ```js
-const handler = () => console.log('Widget abierto');
+const handler = (data) => console.log('Mensaje recibido:', data);
 
 // Registrar
-widget.on('widget.opened', handler);
+widget.on('message.received', handler);
 
 // Desregistrar
-widget.off('widget.opened', handler);
+widget.off('message.received', handler);
 ```
 
 ### Eventos Disponibles
@@ -175,14 +175,6 @@ const { EVENTS } = AIFindrCommerceWidget;
 // Eventos del ciclo de vida del widget
 widget.on(EVENTS.WIDGET_READY, () => {
   console.log('Widget inicializado y listo');
-});
-
-widget.on(EVENTS.WIDGET_OPENED, () => {
-  console.log('Widget abierto');
-});
-
-widget.on(EVENTS.WIDGET_CLOSED, () => {
-  console.log('Widget cerrado');
 });
 
 widget.on(EVENTS.WIDGET_ERROR, (error) => {
@@ -217,8 +209,6 @@ widget.on(EVENTS.PRODUCT_CTA, (data) => {
 | Evento | Descripción | Datos |
 |--------|-------------|-------|
 | `widget.ready` | Widget inicializado y listo | `undefined` |
-| `widget.opened` | Widget abierto exitosamente | `undefined` |
-| `widget.closed` | Widget cerrado | `undefined` |
 | `widget.error` | Error en el widget | `Error object` |
 | `conversation.started` | Nueva conversación iniciada | `{ conversationId, timestamp }` |
 | `message.sent` | Usuario envió un mensaje | `{ message, timestamp }` |
@@ -236,8 +226,8 @@ const widget = new AIFindrCommerceWidget({
   renderTo: '#aifindr-widget-container',
   clientId: 'TU_CLIENT_ID',
   baseUrl: 'https://client.aifindrcommerce.ai'
-}).on('widget.opened', () => {
-  trackEvent('widget_opened');
+}).on('widget.ready', () => {
+  trackEvent('widget_ready');
 }).on('conversation.started', () => {
   trackEvent('conversation_started');
 });
