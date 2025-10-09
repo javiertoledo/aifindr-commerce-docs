@@ -17,7 +17,7 @@ La integración del AIFindr Commerce Widget se realiza en dos pasos.
 
 ```html
 <script
-  src="https://cdn.aifindrcommerce.ai/widget.js"
+  src="http://widget.aifindrcommerce.com/embed/widget.iife.js"
   data-client-id="TU_CLIENT_ID"
   defer
 ></script>
