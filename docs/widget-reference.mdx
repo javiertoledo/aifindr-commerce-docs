@@ -1,0 +1,297 @@
+---
+title: API Reference
+description: Complete JavaScript API reference for the AIFindr widget
+slug: /widget-config/api-reference
+sidebar_position: 6
+---
+
+import LocaleSwitcher from '@site/src/components/LocaleSwitcher';
+
+<LocaleSwitcher />
+
+# AIFindr Commerce Widget
+
+The **AIFindr Commerce Widget** embeds a conversational assistant that **answers questions, guides shoppers, and lifts conversions** without disrupting navigation.
+
+## Installation
+
+Install the AIFindr Commerce Widget in two quick steps.
+
+### Step 1 · Load the widget script
+
+```html
+<script
+  src="http://widget.aifindrcommerce.com/embed/widget.iife.js"
+  data-client-id="YOUR_CLIENT_ID"
+  defer
+></script>
+```
+
+:::info
+Replace `YOUR_CLIENT_ID` with the unique identifier provided by the AIFindr Commerce team.
+:::
+
+#### Where should the script go?
+
+- Include it inside `<head>` with `defer` so it loads asynchronously without blocking the page.
+
+### Step 2 · Render the widget inside a container element
+
+```html
+<script>
+  // Run the constructor once the DOM is ready. If your page is built dynamically,
+  // make sure to execute this after the container exists in the DOM.
+  window.addEventListener('DOMContentLoaded', () => {
+    const widget = new AIFindrCommerceWidget({
+      "renderTo": "#aifindr-widget-container", // Target container selector
+      "clientId": "YOUR_CLIENT_ID", // Replace with your Client ID
+      "baseUrl": "https://client.aifindrcommerce.ai", // Widget content URL
+    });
+  });
+</script>
+```
+
+## API Reference
+
+Full JavaScript API surface for the AIFindr Commerce Widget. The `AIFindrCommerceWidget` class lets you manage every widget instance.
+
+### Constructor
+
+#### `new AIFindrCommerceWidget(options)`
+
+Creates a new widget instance and bootstraps it.
+
+**Parameters:**
+
+- `options` (object): Initialization settings
+  - `renderTo` (string): CSS selector for the container that should host the widget
+  - `clientId` (string): Your AIFindr Commerce Client ID
+  - `baseUrl` (string): Base URL of the widget service
+
+**Returns:** `AIFindrCommerceWidget` - The widget instance
+
+```js
+// Create a widget instance
+const widget = new AIFindrCommerceWidget({
+  renderTo: '#aifindr-widget-container',
+  clientId: 'YOUR_CLIENT_ID',
+  baseUrl: 'https://client.aifindrcommerce.ai'
+});
+```
+
+### Initialization
+
+#### `widget.ready(callback?)`
+
+Runs code once the widget finishes loading.
+
+**Parameters:**
+
+- `callback` (function, optional): Function to execute when the widget is ready
+
+**Returns:**
+
+- Without callback: `Promise<AIFindrCommerceWidget>`
+- With callback: `AIFindrCommerceWidget`
+
+```js
+// Using a callback
+widget.ready(() => {
+  console.log('Widget ready!');
+}).setContext({ userId: '123' });
+
+// Using a Promise
+await widget.ready();
+console.log('Widget ready!');
+```
+
+#### `widget.isReady()`
+
+Checks whether the widget can be used.
+
+**Returns:** `boolean`
+
+```js
+if (widget.isReady()) {
+  widget.open();
+} else {
+  console.log('Widget is not ready yet');
+}
+```
+
+### Event System
+
+#### `widget.on(event, callback)`
+
+Registers a listener for a specific event.
+
+**Parameters:**
+
+- `event` (string): Event name
+- `callback` (function): Function to run when the event fires
+
+**Returns:** `AIFindrCommerceWidget` - Enables chaining
+
+```js
+widget.on('message.sent', (data) => {
+  console.log('Message sent:', data);
+});
+
+widget.on('message.received', (data) => {
+  console.log('Message received:', data);
+});
+
+// Chaining listeners
+widget
+  .on('conversation.started', () => console.log('Conversation started'))
+  .on('message.sent', () => console.log('Message sent'));
+```
+
+#### `widget.off(event, callback)`
+
+Removes a listener for a specific event.
+
+**Parameters:**
+
+- `event` (string): Event name
+- `callback` (function): Listener function to remove
+
+**Returns:** `AIFindrCommerceWidget` - Enables chaining
+
+```js
+const handler = (data) => console.log('Message received:', data);
+
+// Register
+widget.on('message.received', handler);
+
+// Unregister
+widget.off('message.received', handler);
+```
+
+### Available Events
+
+#### `AIFindrCommerceWidget.EVENTS`
+
+Constant holding the names of every available event (exposed as a static property on the class).
+
+```js
+const { EVENTS } = AIFindrCommerceWidget;
+
+// Widget lifecycle events
+widget.on(EVENTS.WIDGET_READY, () => {
+  console.log('Widget initialized and ready');
+});
+
+widget.on(EVENTS.WIDGET_ERROR, (error) => {
+  console.error('Widget error:', error);
+});
+
+// Conversation events
+widget.on(EVENTS.CONV_STARTED, (data) => {
+  console.log('Conversation started:', data);
+});
+
+widget.on(EVENTS.MESSAGE_SENT, (message) => {
+  console.log('Message sent:', message);
+});
+
+widget.on(EVENTS.MESSAGE_RECV, (message) => {
+  console.log('Message received:', message);
+});
+
+// Commerce events
+widget.on(EVENTS.PRODUCT_SELECTED, (data) => {
+  console.log('Product selected:', data.productId);
+});
+
+widget.on(EVENTS.PRODUCT_CTA, (data) => {
+  console.log('Product CTA:', data.productId, data.actionId);
+});
+```
+
+#### Event List
+
+| Event | Description | Payload |
+|-------|-------------|---------|
+| `widget.ready` | Widget initialized successfully | `undefined` |
+| `widget.error` | A widget error occurred | `Error object` |
+| `conversation.started` | A new conversation began | `{ conversationId, timestamp }` |
+| `message.sent` | The shopper sent a message | `{ message, timestamp }` |
+| `message.received` | The assistant responded | `{ message, timestamp }` |
+| `commerce.product.selected` | A product was selected | `{ productId, timestamp }` |
+| `commerce.product.cta` | A product CTA was picked | `{ productId, actionId, timestamp }` |
+
+### Usage Examples
+
+#### Basic integration
+
+```js
+// Create a widget instance
+const widget = new AIFindrCommerceWidget({
+  renderTo: '#aifindr-widget-container',
+  clientId: 'YOUR_CLIENT_ID',
+  baseUrl: 'https://client.aifindrcommerce.ai'
+}).on('widget.ready', () => {
+  trackEvent('widget_ready');
+}).on('conversation.started', () => {
+  trackEvent('conversation_started');
+});
+```
+
+#### Commerce event tracking
+
+```js
+const { EVENTS } = AIFindrCommerceWidget;
+
+// Listen when a shopper selects a product
+widget.on(EVENTS.PRODUCT_SELECTED, (data) => {
+  console.log('Product selected:', data.productId);
+
+  // Track with your analytics tool
+  gtag('event', 'product_view', {
+    product_id: data.productId,
+    source: 'aifindr_widget'
+  });
+
+  // Open the product page in a new tab
+  window.open(`/products/${data.productId}`, '_blank');
+});
+
+// Listen when a shopper interacts with a product CTA
+widget.on(EVENTS.PRODUCT_CTA, (data) => {
+  console.log('CTA:', data.actionId, 'Product:', data.productId);
+
+  // Handle each action
+  switch (data.actionId) {
+    case 'add_to_cart':
+      addToCart(data.productId);
+      break;
+    case 'add_to_wishlist':
+      addToWishlist(data.productId);
+      break;
+    default:
+      console.log('Unhandled CTA:', data.actionId);
+  }
+
+  // Track with your analytics tool
+  gtag('event', 'product_cta', {
+    product_id: data.productId,
+    action: data.actionId,
+    source: 'aifindr_widget'
+  });
+});
+
+// Example cart integration
+function addToCart(productId) {
+  fetch('/api/cart/add', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ productId, quantity: 1 })
+  })
+    .then((response) => response.json())
+    .then((cart) => {
+      console.log('Product added to cart:', cart);
+      updateCartUI(cart);
+    });
+}
+```

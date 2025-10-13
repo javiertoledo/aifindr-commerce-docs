@@ -9,6 +9,20 @@ const config: Config = {
   tagline: "AIFindr Commerce Documentation",
   url: "https://docs.aifindr.com",
   baseUrl: "/",
+  i18n: {
+    defaultLocale: "en",
+    locales: ["en", "es"],
+    localeConfigs: {
+      en: {
+        label: "English",
+        htmlLang: "en-US",
+      },
+      es: {
+        label: "Español",
+        htmlLang: "es-ES",
+      },
+    },
+  },
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
